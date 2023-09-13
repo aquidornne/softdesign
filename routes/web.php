@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\VueController;
+use App\Http\Controllers\HgbrasilController;
+use App\Http\Controllers\LivroController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,10 +21,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\HgbrasilController;
+Route::get('/front', [VueController::class, 'index']);
 
 Route::get('/weather', [HgbrasilController::class, 'weather']);
-
-use App\Http\Controllers\LivroController;
 
 Route::resource('livros', LivroController::class);
