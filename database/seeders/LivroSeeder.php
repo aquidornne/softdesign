@@ -1,0 +1,17 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Livro;
+use Database\Factories\LivroFactory;
+
+class LivroSeeder extends Seeder
+{
+    public function run()
+    {
+        Livro::factory()
+            ->count(500)
+            ->create();
+    }
+}
