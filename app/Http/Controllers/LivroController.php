@@ -21,8 +21,8 @@ class LivroController extends Controller
             $validator = Validator::make($request->all(), [
                 'limit' => 'integer',
                 'offset' => 'integer',
-                'ordem' => 'string',
-                'tp_ordem' => 'boolean',
+                'order' => 'string',
+                'typeOrder' => 'boolean',
                 'titulo' => 'string',
                 'descricao' => 'string',
                 'autor' => 'string',
