@@ -8,9 +8,9 @@ class VueController extends Controller
 {
     public function index()
     {
-        if (!auth()->check()) {
-            return redirect()->route('login');
-        }
+        //if (!auth()->check()) 
+            //return redirect()->route('login');
+
         return view('vue');
     }
 }

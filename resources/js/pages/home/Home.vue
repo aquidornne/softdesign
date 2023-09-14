@@ -6,18 +6,35 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
+                                <div class="col-12">
+                                    <h4 class="h4">Livros</h4>
+                                </div>
                                 <div class="col-12 text-right">
-                                    <b-button v-b-tooltip.hover title="Novo" class="btn btn-info mr-1 mb-1"
-                                        @click="">
-                                        <i class="fa fa-plus"></i> Novo
+                                    <b-button 
+                                        v-b-tooltip.hover 
+                                        title="Novo" 
+                                        class="btn btn-info mr-1 mb-1"
+                                        @click=""
+                                    >
+                                        <b-icon-plus-lg></b-icon-plus-lg> Novo
                                     </b-button>
-                                    <b-button v-b-tooltip.hover title="Alterar" class="btn btn-alert mr-1 mb-1"
-                                        @click="">
-                                        <i class="fa fa-pencil"></i> Alterar
+                                    <b-button 
+                                        v-b-tooltip.hover 
+                                        title="Alterar" 
+                                        class="btn btn-alert mr-1 mb-1"
+                                        :disabled="selectedData.length === 0"
+                                        @click=""
+                                    >
+                                        <b-icon-pencil></b-icon-pencil> Alterar
                                     </b-button>
-                                    <b-button v-b-tooltip.hover title="Excluir" class="btn btn-danger mr-1 mb-1"
-                                        @click="">
-                                        <i class="fa fa-trash"></i> Excluir
+                                    <b-button 
+                                        v-b-tooltip.hover 
+                                        title="Excluir" 
+                                        class="btn btn-danger mr-1 mb-1"
+                                        :disabled="selectedData.length === 0"
+                                        @click="destroy()"
+                                    >
+                                        <b-icon-trash></b-icon-trash> Excluir
                                     </b-button>
                                 </div>
                             </div>
@@ -32,15 +49,25 @@
                                             :items="list" 
                                             :per-page="perPage"
                                             sticky-header 
-                                            head-variant="dark" 
                                             striped 
                                             hover 
+                                            selectable 
                                             :select-mode="selectMode" 
+                                            @row-selected="setActiveItem" 
                                             @sort-changed="defineOrder" 
                                             :sort-by="order" 
-                                            :sort-desc="typeOrder"
+                                            :sort-desc="typeOrder" 
                                             style="max-height: 600px"
                                         >
+                                            <template #cell(selecionado)="{ rowSelected }">
+                                                <template v-if="rowSelected">
+                                                    <b-icon-check-lg class="text-success"></b-icon-check-lg>
+                                                    <span class="sr-only">Selecionado</span>
+                                                </template>
+                                                <template v-else>
+                                                    <span class="sr-only">Não selecionado</span>
+                                                </template>
+                                            </template>
                                         </b-table>
                                     </div>
                                     <div v-else>
@@ -73,13 +100,11 @@ import { mapActions } from 'vuex';
 
 import api from '@/api/livro.api.js';
 
-import Filter from './Components/Filter.vue';
-
-import Util from '@/util.js';
+//import Filter from './Components/Filter.vue';
 
 export default {
     components: {
-        Filter
+        //Filter
     },
     data() {
         return {
@@ -91,6 +116,10 @@ export default {
                 numero_de_paginas: ''
             },
             colunas: [
+                {
+                    key: 'selecionado',
+                    label: 'Selecionado'
+                },
                 {
                     key: 'titulo',
                     label: 'Título',
@@ -108,14 +137,13 @@ export default {
                 },
                 {
                     key: 'numero_de_paginas',
-                    label: 'Número de Páginas',
+                    label: 'Num. de Páginas',
                     sortable: true,
                 },
                 {
                     key: 'created_at',
                     label: 'Data de Criação',
-                    sortable: true,
-                    formatter: this.formateDateToUS
+                    sortable: true
                 }
             ],
             list: [],
@@ -125,6 +153,8 @@ export default {
             perPage: 10,
             order: 'created_at',
             typeOrder: false,
+            selectedData: [],
+            successMessage: 'Operação realizada com sucesso!'
         };
     },
     mounted() {
@@ -133,8 +163,8 @@ export default {
     methods: {
         ...mapActions('msgError', { showErrorMsg: 'showErrorMsg' }),
         ...mapActions('msgSuccess', { showSuccessMsg: 'showSuccessMsg' }),
-        formateDateToUS(valor) {
-            return Util.formateDateToUS(valor)
+        setActiveItem(item) {
+            this.selectedData = item
         },
         defineOrder(e) {
             this.order = e.sortBy
@@ -156,10 +186,42 @@ export default {
                 numero_de_paginas: this.filtro.numero_de_paginas
             }
 
-            api.index(data).then(res => {
-                this.list = res.data.data
-                this.total = res.data.total
+            api.index(data)
+                .then(res => {
+                    this.list = res.data.data
+                    this.total = res.data.total
+                })
+                .catch(() => {
+                    this.showErrorMsg('Erro ao obter a lista de livros.')
+                })
+        },
+        destroy() {
+            const dados = Object.assign({}, this.selectedData[0]);
+
+            this.$bvModal.msgBoxConfirm(this.successMessage, {
+                title: 'Por favor, confirme!',
+                size: 'sm',
+                buttonSize: 'sm',
+                okVariant: 'danger',
+                okTitle: 'Confirmar',
+                cancelTitle: 'Cancelar',
+                footerClass: 'p-2',
+                hideHeaderClose: false,
+                centered: true
             })
+                .then(value => {
+                    if (value) {
+                        api.destroy(dados.id)
+                            .then(() => {
+                                this.showSuccessMsg()
+                                this.index(0)
+                                this.selectedData = []
+                            })
+                            .catch(() => {
+                                this.showErrorMsg('Erro ao excluir o livro.')
+                            })
+                    }
+                });
         },
     }
 };

@@ -4,12 +4,9 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Domain\Services\HgbrasilService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HgbrasilControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testWeather()
     {
         $response = $this->get('/weather');

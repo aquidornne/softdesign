@@ -1,4 +1,4 @@
-import Home from "@/pages/Home.vue";
+import Home from "@/pages/home/Home.vue";
 
 import Page404 from "@/pages/404.vue";
 

@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Livro;
 
 class LivroControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testIndex()
     {
         $response = $this->get('/livros');

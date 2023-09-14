@@ -1,9 +1,7 @@
 // Arquivo axios.js
 
 import axios from 'axios';
-import store from './store';
-
-process.env.baseURL
+import store from '@/store';
 
 const paramsAxios = {
   baseURL: process.env.baseURL,

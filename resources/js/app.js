@@ -1,7 +1,7 @@
-equire('./bootstrap');
+require('./bootstrap');
 
 import Vue from "vue";
-import store from "@/store";
+import store from "@/store/index";
 import App from "@/page";
 import router from "@/router/index";
 

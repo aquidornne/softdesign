@@ -17,21 +17,24 @@ class LivroService
 
     public function list(array $data): array
     {
-        $query = $this->livroRepository->model->query();
+        $queryA = $this->livroRepository->model->query();
+        $queryB = $this->livroRepository->model->query();
 
         $limit = isset($data['limit']) ? $data['limit'] : 10;
         $offset = isset($data['offset']) ? $data['offset'] : 0;
         $ordem = $data['ordem'] ?? 'titulo';
         $tp_ordem = $data['tp_ordem'] ?? 'desc';
 
-        $lista = $query
+        $lista = $queryA
             ->where($this->filter($data))
             ->offset($limit * $offset)
             ->limit($limit)
             ->orderBy($ordem, $tp_ordem)
             ->get();
 
-        $total = $query->count();
+        $total = $queryB
+            ->where($this->filter($data))
+            ->count();
 
         return [
             'data' => $lista,

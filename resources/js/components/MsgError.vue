@@ -7,7 +7,7 @@
     export default {
         name: "MsgError",
         computed: {
-            ...mapGetters("msgErro", ['getErrorMsg', 'getTxtErrorMsg'])
+            ...mapGetters("msgError", ['getErrorMsg', 'getTxtErrorMsg'])
         },
         data () {
             return {         

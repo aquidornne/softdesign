@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Domain\Services\HgbrasilService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use App\Lib\HttpClient;
 
@@ -12,8 +11,6 @@ use App\Domain\DTO\TempoDTO;
 
 class HgbrasilServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testGetWeather()
     {
         $httpClientMock = $this->createMock(HttpClient::class);

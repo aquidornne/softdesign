@@ -6,13 +6,10 @@ use Tests\TestCase;
 use App\Domain\Services\LivroService;
 use App\Domain\Repositories\LivroRepository;
 use App\Models\Livro;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Collection;
 
 class LivroServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testListarLivros()
     {
         Livro::factory(3)->create();

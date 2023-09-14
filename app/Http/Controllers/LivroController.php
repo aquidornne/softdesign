@@ -22,11 +22,11 @@ class LivroController extends Controller
                 'limit' => 'integer',
                 'offset' => 'integer',
                 'order' => 'string',
-                'typeOrder' => 'boolean',
-                'titulo' => 'string',
-                'descricao' => 'string',
-                'autor' => 'string',
-                'numero_de_paginas' => 'integer',
+                'typeOrder' => 'string',
+                'titulo' => 'nullable|string',
+                'descricao' => 'nullable|string',
+                'autor' => 'nullable|string',
+                'numero_de_paginas' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
