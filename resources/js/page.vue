@@ -37,4 +37,21 @@
   h1,h2,h3,h4 {
     font-family: Outfit !important
   }
+
+  .form-group--error input, 
+  .form-group--error select, 
+  .form-group--error textarea,
+  .form-group--error .vs__dropdown-toggle input,
+  .form-group--error-file div label,
+  .form-group--error .vs__dropdown-toggle,
+  .form-group--error .b-form-datepicker
+  {
+      border: 1px solid red !important
+  }
+  .form-group--error .vs__dropdown-toggle {
+      border: 1px solid red !important
+  }
+  .form-group--error .vs__dropdown-toggle input {
+      border: none !important
+  }
 </style>

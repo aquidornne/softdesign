@@ -1,5 +1,10 @@
 <template>
     <div>
+        <FormFind
+            :dataFormFind="dataFormFind" 
+            @refreshIndex="refreshIndex" 
+        />
+
         <div>
             <div class="row">
                 <div class="col-12">
@@ -14,7 +19,7 @@
                                         v-b-tooltip.hover 
                                         title="Novo" 
                                         class="btn btn-info mr-1 mb-1"
-                                        @click=""
+                                        @click="openNew()"
                                     >
                                         <b-icon-plus-lg></b-icon-plus-lg> Novo
                                     </b-button>
@@ -23,7 +28,7 @@
                                         title="Alterar" 
                                         class="btn btn-alert mr-1 mb-1"
                                         :disabled="selectedData.length === 0"
-                                        @click=""
+                                        @click="openUpdate()"
                                     >
                                         <b-icon-pencil></b-icon-pencil> Alterar
                                     </b-button>
@@ -93,6 +98,14 @@
                 </div>
             </div>
         </div>
+
+        <Form 
+            :modalShow="modalShow"
+            :dataUpdate="dataUpdate"
+            @update:modalShow="modalShow = $event"
+            @refresh="refresh"
+            :key="this.keyRefresh">
+        </Form>
     </div>
 </template>
 <script>
@@ -100,16 +113,19 @@ import { mapActions } from 'vuex';
 
 import api from '@/api/livro.api.js';
 
-//import Filter from './Components/Filter.vue';
+import FormFind from './Components/FormFind.vue';
+
+import Form from './Components/Form.vue';
 
 export default {
     components: {
-        //Filter
+        FormFind,
+        Form
     },
     data() {
         return {
             showFilter: false,
-            filtro: {
+            dataFormFind: {
                 titulo: '',
                 descricao: '',
                 autor: '',
@@ -154,7 +170,10 @@ export default {
             order: 'created_at',
             typeOrder: false,
             selectedData: [],
-            successMessage: 'Operação realizada com sucesso!'
+            successMessage: 'Operação realizada com sucesso!',
+            modalShow: false,
+            dataUpdate: null,
+            keyRefresh: 0
         };
     },
     mounted() {
@@ -172,6 +191,10 @@ export default {
             this.index(0)
             this.currentPage = 0
         },
+        refreshIndex(data) {
+            this.dataFormFind = data
+            this.index(0)
+        },
         index(currentPage) {
             const pag = ((currentPage !== undefined ? currentPage : this.currentPage) - 1)
 
@@ -180,10 +203,10 @@ export default {
                 limit: this.perPage,
                 order: this.order,
                 typeOrder: this.typeOrder ? 'DESC' : 'ASC',
-                titulo: this.filtro.titulo,
-                descricao: this.filtro.descricao,
-                autor: this.filtro.autor,
-                numero_de_paginas: this.filtro.numero_de_paginas
+                titulo: this.dataFormFind.titulo,
+                descricao: this.dataFormFind.descricao,
+                autor: this.dataFormFind.autor,
+                numero_de_paginas: this.dataFormFind.numero_de_paginas
             }
 
             api.index(data)
@@ -196,7 +219,7 @@ export default {
                 })
         },
         destroy() {
-            const dados = Object.assign({}, this.selectedData[0]);
+            const data = Object.assign({}, this.selectedData[0]);
 
             this.$bvModal.msgBoxConfirm(this.successMessage, {
                 title: 'Por favor, confirme!',
@@ -211,7 +234,7 @@ export default {
             })
                 .then(value => {
                     if (value) {
-                        api.destroy(dados.id)
+                        api.destroy(data.id)
                             .then(() => {
                                 this.showSuccessMsg()
                                 this.index(0)
@@ -223,6 +246,19 @@ export default {
                     }
                 });
         },
+        openNew() {
+            this.modalShow = true
+            this.keyRefresh++
+            this.dataUpdate = null
+        },
+        openUpdate() {
+            this.dataUpdate = this.selectedData[0]
+            this.keyRefresh++
+            this.modalShow = true
+        },
+        refresh() {
+            this.index(0)
+        }
     }
 };
 </script>

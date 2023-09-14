@@ -22,8 +22,8 @@ class LivroService
 
         $limit = isset($data['limit']) ? $data['limit'] : 10;
         $offset = isset($data['offset']) ? $data['offset'] : 0;
-        $ordem = $data['ordem'] ?? 'titulo';
-        $tp_ordem = $data['tp_ordem'] ?? 'desc';
+        $ordem = $data['order'] ?? 'created_at';
+        $tp_ordem = $data['typeOrder'] ?? 'asc';
 
         $lista = $queryA
             ->where($this->filter($data))
