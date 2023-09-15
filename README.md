@@ -5,7 +5,7 @@
 - PHP 8.0 ou superior
 - Composer
 - Node.js e NPM
-- Banco de Dados MySQL (ou outro de sua escolha)
+- Banco de Dados MySQL
 
 ### Configuração
 
