@@ -168,7 +168,7 @@ export default {
             total: 1,
             perPage: 10,
             order: 'created_at',
-            typeOrder: false,
+            typeOrder: true,
             selectedData: [],
             successMessage: 'Operação realizada com sucesso!',
             modalShow: false,

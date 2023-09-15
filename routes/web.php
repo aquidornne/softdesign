@@ -17,9 +17,7 @@ use App\Http\Controllers\LivroController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [VueController::class, 'index']);
 
 Route::get('/front', [VueController::class, 'index']);
 
