@@ -69,6 +69,6 @@ npm run watch-poll
 php artisan serve
 ```
 
-8. Link para Google Drive com evidencias da aplicação rodando
+8. Link para Google Drive com evidências da aplicação rodando:
 
 https://drive.google.com/drive/folders/10srF9VjVqcOzbAhCTJ-8ic-QQV7I7xwQ?usp=sharing
