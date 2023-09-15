@@ -143,7 +143,7 @@ export default {
 
             api.store(this.livro)
                 .then(() => {
-                    this.showSuccessMsg("Livro cadastro com sucesso.")
+                    this.showSuccessMsg("Livro cadastrado com sucesso.")
                     this.refresh()
                 })
                 .catch(() => {
@@ -161,7 +161,7 @@ export default {
 
             api.update(this.livro.id, this.livro)
                 .then(() => {
-                    this.showSuccessMsg("Livro cadastro com sucesso.")
+                    this.showSuccessMsg("Livro atualizado com sucesso.")
                     this.refresh()
                 })
                 .catch(() => {
